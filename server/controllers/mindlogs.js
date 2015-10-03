@@ -17,6 +17,20 @@ mindlogsRouter.post('/', function(req, res){
     });
 });
 
+mindlogsRouter.get('/', function(req, res){
+    //find the user by the token
+    //push in the mindlog
+    //save the user
+    //send the user back as json
+    User.findOne({token: req.headers.token}, function(err, user){
+        // user.mindlogs.(req.body);
+        // user.save(function(){
+            res.json(user);
+        // });
+
+    });
+});
+
 module.exports = mindlogsRouter;
 
 

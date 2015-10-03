@@ -1,0 +1,17 @@
+<div class="sign-up">
+    <h3>Sign Up:</h3>
+    <form ng-submit="createUser()">
+        <input type="text" ng-model="newUser.username" placeholder="...username">
+        <input type="password" ng-model="newUser.password" placeholder="...password">
+        <input type="submit">
+    </form>
+</div>
+
+<div class="log-in">
+    <h3>Log In:</h3>
+    <form ng-submit="obtainToken()">
+        <input type="text" ng-model="loginUser.username" placeholder="...username">
+        <input type="password" ng-model="loginUser.password" placeholder="...password">
+        <input type="submit">
+    </form>
+</div>

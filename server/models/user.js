@@ -11,7 +11,8 @@ var UserSchema = new mongoose.Schema({
     mindlogs: [
         {
             entry: {type: String},
-            rating: {type: Number}
+            rating: {type: Number},
+            timestamp: {type: Date, default: Date.now},
         }
     ]
 });
