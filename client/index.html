@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>mindlog</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
         <link href='http://fonts.googleapis.com/css?family=Share+Tech+Mono' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/css/styles.css">
         <!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js" charset="utf-8"></script> -->
@@ -11,37 +12,40 @@
         <script src="/bower_components/angular-ui-router/release/angular-ui-router.js" charset="utf-8"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.js" charset="utf-8"></script>
 
-    <style type="text/css">
-        .bar rect
-        {
-            fill: lightyellow;
-            stroke: black;
-        }
-        .timestamp
-        {
-            font-family: 'Share Tech Mono', ;
-            font-size: 15pt;
-            color: gray;
-            fill-opacity: .6;
-        }
-        .rating
-        {
-            font-family: 'Share Tech Mono', ;
-            font-size: 15pt;
-            color: gray;
-            fill-opacity: .6;
-        }
+        <style>
+            .chart {
 
-        .tick_label
-        {
-            font-family: 'Share Tech Mono', ;
-            font-size: 15pt;
-            color: gray;
-            fill-opacity: .6;
-        }
-    </style>
+            }
 
+            .main text {
+                font: 10px sans-serif;
+            }
 
+            .axis line, .axis path {
+                shape-rendering: crispEdges;
+                stroke: black;
+                fill: none;
+            }
+
+            circle {
+                fill: steelblue;
+            }
+
+            path {
+                stroke: steelblue;
+                stroke-width: 2;
+                fill: none;
+            }
+
+            .axis path,
+            .axis line {
+                fill: none;
+                stroke: grey;
+                stroke-width: 1;
+                shape-rendering: crispEdges;
+            }
+
+            </style>
     </head>
     <body>
 

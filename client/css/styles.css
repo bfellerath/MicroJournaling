@@ -1,3 +1,125 @@
-body{
-    background-color: lightgreen;
+body {
+    background-color: #F7FEFE;
+    font-family: 'Share Tech Mono', ;
+
+
+      background: -webkit-linear-gradient(90deg, #abbaab 10%, #ffffff 90%); /* Chrome 10+, Saf5.1+ */
+      background:    -moz-linear-gradient(90deg, #abbaab 10%, #ffffff 90%); /* FF3.6+ */
+      background:     -ms-linear-gradient(90deg, #abbaab 10%, #ffffff 90%); /* IE10 */
+      background:      -o-linear-gradient(90deg, #abbaab 10%, #ffffff 90%); /* Opera 11.10+ */
+      background:         linear-gradient(90deg, #abbaab 10%, #ffffff 90%); /* W3C */
+
+
 }
+
+/*#log-out-button {
+    visibility: hidden;
+}
+
+#log-out-div:hover > form {
+    visibility: visible;
+}*/
+
+/*#log-out-div {
+    position: absolute;
+    top: 0;
+    right: 0;
+}*/
+
+#list_entries-list {
+    background: rgba(50, 100, 100, 0.2);
+}
+
+ #headerdiv {
+    font-family: 'Special Elite', cursive;
+    font-family: 'Days One', sans-serif;
+    font-family: 'Share Tech Mono', ;
+    color: black;
+ }
+
+ #navbar {
+    background-color: #FFCC66;
+    background-color: #F7FEFE;
+    padding-top: 5px;
+
+ }
+
+ /*#list {
+    text-align: left;
+    margin-left: 20%;
+    margin-right: 20%;
+    font-size: 1.5em;
+    background-color: lightyellow;
+ }*/
+
+ .list_entry:first-child {
+     padding-top: 10px;
+
+ }
+
+ #list_entries-list {
+     margin-top: 40px;
+     border-radius: 10px;
+ }
+
+ #cooldiv {
+    background-color: black;
+    align-items: center;
+    text-align: center;
+    /*border: grey solid 2px;*/
+    padding: 1px;
+ }
+ .band-name {
+     float: left;
+ }
+ .button-primary{
+     float: left;
+ }
+ .admin{
+     float: right;
+ }
+
+ .bar rect
+ {
+     fill: lightyellow;
+     stroke: black;
+ }
+ .timestamp
+ {
+     font-family: 'Share Tech Mono', ;
+     font-size: 15pt;
+     color: gray;
+     fill-opacity: .6;
+ }
+ .rating
+ {
+     font-family: 'Share Tech Mono', ;
+     font-size: 15pt;
+     color: gray;
+     fill-opacity: .6;
+ }
+
+ .tick_label
+ {
+     font-family: 'Share Tech Mono', ;
+     font-size: 15pt;
+     color: gray;
+     fill-opacity: .6;
+ }
+
+
+
+ h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Share Tech Mono', ;
+ }
+
+ #dark-button {
+    border: black solid 1px;
+    font-family: 'Anonymous Pro', ;
+    font-family: 'Share Tech Mono', ;
+    font-size: 15px;
+    color: black;
+    min-width: 132px;
+    background-color: #E8FEFE;
+ }

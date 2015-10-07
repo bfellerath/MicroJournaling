@@ -60,7 +60,7 @@ angular.module('MindlogMaster')
 
 
 angular.module('MindlogMaster')
-    .controller('GraphController', ['$scope', '$http', '$cookies', '$state', function($scope, $http, $cookies, $state){
+    .controller('GraphController', ['$scope', '$http', '$cookies', '$state', '$filter', function($scope, $http, $cookies, $state, $filter){
         $scope.welcome = "log your mind.";
         $scope.users = [];
         $scope.newUser = {};
@@ -77,204 +77,140 @@ angular.module('MindlogMaster')
                 headers: {
                     token: $scope.token
                 },
-                    data: $scope.newMindlog
+                data: $scope.newMindlog
             }).then(function(response){
                 var data = response.data.mindlogs;
                 drawGraph(data);
-                console.log(data);
             });
         };
 
-
+//this gets the data when you first load the page, one time use
+//give me all the mindlogs associated with the user that I am
         $scope.getGraph = function(){
             $http({
                 url: '/api/mindlogs',
                 method: 'get',
+                //specify who the user is
                 headers: {
+                    //who the user is
                     token: $scope.token
                 }
-                    // data: $scope.newMindlog
+
             }).then(function(response){
                 console.log(response);
                 if (response.data && response.data.mindlogs && response.data.mindlogs.length > 0){
                     var data = response.data.mindlogs;
-                    console.log(data);
                     drawGraph(data);
                 }
 
 
-                // console.log(data);
-                // console.log(response);
             });
         };
 
-        // $scope.getGraph();
-        <!-- // spiking for chart from bar chart tutorial video
 
-        // var data = response.data.mindlogs;
-
-        //   var data = [
-        //       {"timestamp":"2015-10-03T18:20:27.384Z", "rating":16, "entry": 'blahblah'},
-        //       {"timestamp":"2015-10-04T18:20:27.384Z", "rating":56, "entry": 'blahblah2'},
-        //       {"timestamp":"2015-10-05T18:20:27.384Z", "rating":7, "entry": 'blahblah3'},
-        //       {"timestamp":"2015-10-06T18:20:27.384Z", "rating":77, "entry": 'blahblah4'},
-        //       {"timestamp":"2015-10-07T18:20:27.384Z", "rating":22, "entry": 'blahblah5'},
-        //       {"timestamp":"2015-10-08T18:20:27.384Z", "rating":16, "entry": 'blahblah6'},
-        //   ];
-
-        // maximum of data you want to use
+///real code starts here ****************************************************************************
+        // only draw graph when we get back the data from the server
         function drawGraph(data) {
-        var data_max = 80,
 
-        //number of tickmarks to use
-        num_ticks = 5,
+                    var margin = {top: 20, right: 15, bottom: 60, left: 60}
+                      , width = 960 - margin.left - margin.right
+                      , height = 500 - margin.top - margin.bottom;
 
-        //margins
-        left_margin = 60,
-        right_margin = 60,
-        top_margin = 30,
-        bottom_margin = 0;
-
-        var w = 500,    //width
-        h = 700,    //height
-        color = function(id) { return '#00b3dc' };
-
-        var x = d3.scale.linear()
-        .domain([0, data_max])
-        .range([0, w - ( left_margin + right_margin )]),
-        y = d3.scale.ordinal()
-        .domain(d3.range(data.length))
-        .rangeBands([bottom_margin, h - top_margin], .5);
-
-        var chart_top = h - y.rangeBand()/2 - top_margin;
-        var chart_bottom = bottom_margin + y.rangeBand()/2;
-        var chart_left = left_margin;
-        var chart_right = w - right_margin;
-
-        // Setup the SVG element and position it
-
-        var vis = d3.select("#graph")
-        .html('')
-        .append("svg:svg")
-          .attr("width", w)
-          .attr("height", h)
-        .append("svg:g")
-          .attr("id", "scatterplot")
-          .attr("class", "scatterplot")
-
-        //ticks
-        var rules = vis.selectAll("g.rule")
-        .data(x.ticks(num_ticks))
-        .enter()
-        .append("svg:g")
-        .attr("transform", function(d)
-          {
-          return "translate(" + (chart_left + x(d)) + ")";
-        });
-
-        rules.append("svg:line")
-        .attr("class", "tick")
-        .attr("y1", chart_top)
-        .attr("y2", chart_top + 4)
-        .attr("stroke", "black");
-
-        rules.append("svg:text")
-        .attr("class", "tick_label")
-        .attr("text-anchor", "middle")
-        .attr("y", chart_top)
-        .text(function(d)
-        {
-        return d;
-        });
+                    var lowest = d3.min(data, function(d) {
+                        var date = Date.parse(d.timestamp)
+                        return date
+                    });
 
 
-        var bbox = vis.selectAll(".tick_label").node().getBBox();
-        vis.selectAll(".tick_label")
-        .attr("transform", function(d)
-        {
-          return "translate(0," + (bbox.height) + ")";
-        });
-
-        var bars = vis.selectAll("g.bar")
-        .data(data)
-        .enter()
-        .append("svg:g")
-          .attr("class", "bar")
-          .attr("transform", function(d, i){
-              return "translate(0, " + y(i) + ")";
-          });
-
-        bars.append("svg:rect")
-        .attr("x", right_margin)
-        .attr("width", function(d) {
-          return (x(d.rating));
-          })
-        .attr("height", y.rangeBand())
-        .attr("fill", color(0))
-        .attr("stroke", color(0));
-
-        //Labels
-        var timestamps = vis.selectAll("g.bar")
-        .append("svg:text")
-          .attr("class", "timestamp")
-          .attr("x", 0)
-          .attr("text-anchor", "right")
-          .text(function(d) {
-              var format = d3.time.format.utc('%Y-%m-%dT%H:%M:%S.%LZ');
-              var parsedDate = format.parse(d.timestamp).toString();
-              parsedDate = parsedDate.split("GMT");
-              parsedDate = parsedDate[0];
-              return parsedDate;
-          });
-
-        var bbox = timestamps.node().getBBox();
-        vis.selectAll(".timestamp")
-        .attr("transform", function(d) {
-          return "translate(0, " + (y.rangeBand()/2 + bbox.height/4) + ")";
-        });
-
-        timestamps = vis.selectAll("g.bar")
-          .append("svg:text")
-              .attr("class", "rating")
-              .attr("x", function(d)
-                  {
-                  return x(d.rating) + right_margin + 10;
-                  })
-              .attr("text-anchor", "left")
-              .text(function(d)
-              {
-              return "" + d.rating + "%";
-              });
-        bbox = timestamps.node().getBBox();
-        vis.selectAll(".rating")
-          .attr("transform", function(d)
-          {
-              return "translate(0, " + (y.rangeBand()/2 + bbox.height/4) + ")";
-          });
+                    var highest = d3.max(data, function(d) {
+                        var date = Date.parse(d.timestamp)
+                        return date
+                    });
 
 
 
+                    highest = highest - lowest;
+
+                    console.log(highest);
+                    console.log(lowest);
+
+                    var x = d3.scale.linear()
+                              .domain([0,
+                              highest])
+                              .range([ 0, width ]);
+
+                    var y = d3.scale.linear()
+                    	      .domain([0, d3.max(data, function(d) { return d.rating; })])
+                    	      .range([ height, 0 ]);
+
+                    var chart = d3.select('#graph')
+                    .html('')
+                	.append('svg:svg')
+                	.attr('width', width + margin.right + margin.left)
+                	.attr('height', height + margin.top + margin.bottom)
+                	.attr('class', 'chart')
+
+                    var main = chart.append('g')
+                	.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+                	.attr('width', width)
+                	.attr('height', height)
+                	.attr('class', 'main')
+
+                    // Define the line
+                    var valueline = d3.svg.line()
+                        .x(function(d) { return x(Date.parse(d.timestamp) - lowest); })
+                        .y(function(d) { return y(d.rating); });
+
+                    // Add the valueline path.
+                    main.append("path")
+                        .attr("class", "line")
+                        .attr("d", valueline(data));
+
+                    // draw the x axis
+                    var xAxis = d3.svg.axis()
+                	.scale(x)
+                	.orient('bottom');
+
+                    main.append('g')
+                	.attr('transform', 'translate(0,' + height + ')')
+                	.attr('class', 'main axis date')
+                	.call(xAxis);
+
+                    // draw the y axis
+                    var yAxis = d3.svg.axis()
+                	.scale(y)
+                	.orient('left');
+
+                    main.append('g')
+                	.attr('transform', 'translate(0,0)')
+                	.attr('class', 'main axis date')
+                	.call(yAxis);
+
+                    var g = main.append("svg:g");
+
+                    g.selectAll("scatter-dots")
+                      .data(data)
+                      .enter().append("svg:circle")
+                          .attr("cx", function (d,i) {
+                              return x(Date.parse(d.timestamp) - lowest);
+                          })
+                          .attr("cy", function (d) { return y(d.rating); } )
+                          .attr("r", 8);
 
 
-        //Axes
-        vis.append("svg:line")
-        .attr("class", "axes")
-        .attr("x1", chart_left)
-        .attr("x2", chart_left)
-        .attr("y1", chart_bottom)
-        .attr("y2", chart_top)
-        .attr("stroke", "black");
-        vis.append("svg:line")
-        .attr("class", "axes")
-        .attr("x1", chart_left)
-        .attr("x2", chart_right)
-        .attr("y1", chart_top)
-        .attr("y2", chart_top)
-        .attr("stroke", "black");
 
 }
 
     }]);
+
+///real code ends here ****************************************************************************
+
+
+
+
+
+
+
 
 
 

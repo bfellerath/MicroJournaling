@@ -12,6 +12,7 @@ var UserSchema = new mongoose.Schema({
         {
             entry: {type: String},
             rating: {type: Number},
+            //I changed this from type: Date to type: Number
             timestamp: {type: Date, default: Date.now},
         }
     ]
