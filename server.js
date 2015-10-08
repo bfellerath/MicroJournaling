@@ -5,7 +5,11 @@ var express     =       require('express'),
     morgan      =       require('morgan');
 
 //database connection
-mongoose.connect('mongodb://localhost/mindlog_db');
+// mongoose.connect('mongodb://localhost/mindlog_db');
+
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/mindlog_db');
+
+
 
 //create application
 var app = express();
@@ -35,6 +39,11 @@ app.use('/api/mindlogs', MindlogsController);
 
 
 // start the app
-app.listen(8080, function(){
-    console.log('...listening');
+// app.listen(8080, function(){
+//     console.log('...listening');
+// });
+
+var port = process.env.PORT || 8080;
+app.listen(port, function(){
+ console.log("... listening");
 });
