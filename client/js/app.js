@@ -202,7 +202,7 @@ angular.module('MindlogMaster')
                       .attr('class', 'd3-tip')
                       .offset([-10, 0])
                       .html(function(d) {
-                        return "<strong>Entry:</strong> <span style='color:red'>" + d.entry + "</span>";
+                        return "<strong>Entry:</strong> <span style='color:orange'>" + d.entry + "</span>";
                       })
 
                       main.call(tip);
