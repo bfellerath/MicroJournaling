@@ -54,9 +54,19 @@ angular.module('MindlogMaster')
             });
         };
 
+        $scope.logOut = function(){
+            console.log("logout");
+             $cookies.remove('token');
+             $scope.token = $cookies.get('token');
+           };
+
+
+
         $scope.token = $cookies.get('token');
 
         }]);
+
+
 
 
 angular.module('MindlogMaster')
@@ -188,6 +198,16 @@ angular.module('MindlogMaster')
 
                     var g = main.append("svg:g");
 
+                    var tip = d3.tip()
+                      .attr('class', 'd3-tip')
+                      .offset([-10, 0])
+                      .html(function(d) {
+                        return "<strong>Entry:</strong> <span style='color:red'>" + d.entry + "</span>";
+                      })
+
+                      main.call(tip);
+
+                    //circles
                     g.selectAll("scatter-dots")
                       .data(data)
                       .enter().append("svg:circle")
@@ -195,8 +215,17 @@ angular.module('MindlogMaster')
                               return x(Date.parse(d.timestamp) - lowest);
                           })
                           .attr("cy", function (d) { return y(d.rating); } )
-                          .attr("r", 8);
+                          .attr("r", 8)
 
+                          //the below is for tooltip
+                          .on('mouseover', tip.show)
+                          .on('mouseout', tip.hide)
+
+                          //attempting to make the entry appear on mouseclick
+                          .on("click", function(d){
+                              console.log(d.entry);
+
+                    	})
 
 
 }
@@ -204,46 +233,3 @@ angular.module('MindlogMaster')
     }]);
 
 ///real code ends here ****************************************************************************
-
-
-
-
-
-
-
-
-
-
-// angular.module('MindlogManager')
-//     .controller('MindlogsController', ['$scope', '$http', function($scope, $http){
-//
-//         $scope.mindlogs = [];
-//         $scope.newMindlog = {};
-//
-//         $scope.getMindlog = function(){
-//             $http.get('/api/mindlogs').then(function(response){
-//                 $scope.mindlogs = response.data;
-//             });
-//         };
-//
-//
-//         $http.get('/api/mindlogs').then(function(response){
-//             $scope.mindlogs = response.data;
-//         });
-//
-//         $scope.createMindlog = function(){
-//             $http.post('/api/mindlogs', $scope.newMindlog).then(function(response){
-//                 $scope.mindlogs.push(response.data);
-//             });
-//
-//         };
-//
-//         $scope.removeMindlog = function(mindlog){
-//             var url = '/api/mindlogs/' + mindlog._id;
-//             $http.delete(url).then(function(response){
-//                 $scope.getMindlog();
-//
-//             });
-//         };
-//
-//     }]);
