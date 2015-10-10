@@ -1,19 +1,47 @@
-<div class="new-mindlog">
-<form ng-submit='createMindlog()'>
-  <input ng-model='newMindlog.rating' type="number" placeholder="...rating">
-  <input ng-model='newMindlog.entry' type="text" placeholder="...entry">
-  <input type="submit">
-</form>
-</div>
-
 <button id='logout' ng-show="token" type="button" ng-click="logOut()" name="button">LogOut</button>
 
+<div class="meta-information">
 
-<div id="text-div">
+<h3>
+{{ welcome }}
+</h3>
 
 </div>
 
 
+
+
+<div class="row" class="new-mindlog">
+
+
+    <div class="one column">
+        &nbsp;
+    </div>
+<!-- validates that the rating is a number -->
+<form ng-submit='validate(newMindlog.rating) && createMindlog()'>
+    <div class="two columns">
+        <label class="mood-rating">Mood Rating 1 - 10</label>
+  <input ng-model='newMindlog.rating' class="u-full-width" type="number" placeholder="...rating">
+
+  </div>
+  <div class="five columns">
+      <label class="journal-entry">Journal Entry</label>
+  <input ng-model='newMindlog.entry' class="u-full-width" type="text" placeholder="...entry">
+  <input class="submit-button" type="submit">
+
+
+
+</div>
+</div>
+</form>
+
+
+
+
+<button ng-click="nextPage()" type="button" name="button">page {{currentView.page}}</button>
+
+<button ng-click="toggleView()" type="button" name="button">{{currentView.state}}</button>
 <div id="graph" ng-init="getGraph()">
+
 
 </div>
