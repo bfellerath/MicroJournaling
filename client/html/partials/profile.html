@@ -38,7 +38,9 @@
 
 
 
-<button ng-click="nextPage()" type="button" name="button">page {{currentView.page}}</button>
+<button ng-show="currentView.pagesLeft" ng-click="nextPage()" type="button" name="button">page {{currentView.page}}</button>
+
+<button ng-show="!currentView.pagesLeft" type="button" name="button">end of mindlogs</button>
 
 <button ng-click="toggleView()" type="button" name="button">{{currentView.state}}</button>
 <div id="graph" ng-init="getGraph()">

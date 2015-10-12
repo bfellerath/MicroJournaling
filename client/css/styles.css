@@ -70,11 +70,11 @@ body {
  }*/
 
 
- .bar rect
+ /*.bar rect
  {
      fill: lightyellow;
      stroke: black;
- }
+ }*/
  .timestamp
  {
      font-family: 'Share Tech Mono', ;

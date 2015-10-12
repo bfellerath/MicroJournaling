@@ -22,7 +22,7 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 
 angular.module('MindlogMaster')
     .controller('UsersController', ['$scope', '$http', '$cookies', '$state', function($scope, $http, $cookies, $state){
-        $scope.welcome = "log your mind.";
+        $scope.welcome = "mindlog";
         $scope.users = [];
         $scope.newUser = {};
         $scope.loginUser = {};
@@ -68,13 +68,13 @@ angular.module('MindlogMaster')
 
 angular.module('MindlogMaster')
     .controller('GraphController', ['$scope', '$http', '$cookies', '$state', '$filter', function($scope, $http, $cookies, $state, $filter){
-        $scope.welcome = "log your mind.";
+        $scope.welcome = "log your mind";
         $scope.users = [];
         $scope.newUser = {};
         $scope.loginUser = {};
         $scope.newMindlog = {};
         $scope.token = $cookies.get('token');
-        $scope.currentView = {state: 'all entries', page: 0};
+        $scope.currentView = {state: 'all entries', page: 0, pagesLeft: true};
 
 
 
@@ -104,13 +104,15 @@ angular.module('MindlogMaster')
 
 
          $scope.toggleView = function(){
-             if ($scope.currentView.state === 'today\'s data') {
-                 drawGraph(sinceYesterday);
-                 $scope.currentView.state = 'all entries';
-             } else {
+            //  if ($scope.currentView.state === 'today\'s data') {
                  drawGraph($scope.allData);
-                 $scope.currentView.state = 'today\'s data';
-             }
+                 $scope.currentView.state = 'all entries';
+            //  }
+
+            //  else {
+            //      drawGraph($scope.allData);
+            //      $scope.currentView.state = 'all entries';
+            //  }
 
          };
 
@@ -123,6 +125,7 @@ angular.module('MindlogMaster')
                 },
                 data: $scope.newMindlog
             }).then(function(response){
+                sinceYesterday = [];
                 var data = response.data.mindlogs;
                 drawGraph(data);
                 $scope.allData = data;
@@ -147,13 +150,11 @@ angular.module('MindlogMaster')
                 if (response.data && response.data.mindlogs && response.data.mindlogs.length > 0){
                     //this is an array of the data
                     var data = response.data.mindlogs;
-                    // filterByQuantity(data);
+                    // filterByDays(data);
                     //call drawgraph function on the data array
                     drawGraph(data);
                     $scope.allData = data;
                 }
-
-
             });
 
         };
@@ -181,37 +182,38 @@ angular.module('MindlogMaster')
                 }
             }
             drawGraph(sinceYesterday);
-            sinceYesterday = [];
         }
 
 
 
         function filterByQuantity(data, page) {
-            //gets whatever number is lower between data.length and 12
-            // var quantity = Math.min(12, data.length);
+
             var currentPage = [];
-            var maxShown = data.length - (page * 12);
-            var startPoint = maxShown - 12;
-            // var pageToLookAt = (data.length - ((page + 1) * 12)
-            // for (var i = maxShown; i > startPoint; i--) {
-            //     if (data[i]){
-            //     currentPage.push(data[i]);
-            // }
-            // }
+            var startPoint = data.length - (page * 12);
 
-            var i = maxShown;
+            console.log(startPoint);
 
-            while (currentPage.length < 12) {
-                if (data[i]){
-                    currentPage.push(data[i]);
+            while (currentPage.length < 12 && startPoint > 0) {
+                console.log(currentPage);
+
+                if (data[startPoint]){
+                    currentPage.push(data[startPoint]);
                 }
-                i--;
+
+                startPoint--;
+
+                if (startPoint <= 0){
+                    $scope.currentView.pagesLeft = false;
+
+                }
             }
             firstTwelve.push(currentPage)
             drawGraph(firstTwelve[page]);
         }
 
-///real code starts here ****************************************************************************
+
+
+
         // only draw graph when we get back the data from the server
         function drawGraph(data) {
 
@@ -229,8 +231,6 @@ angular.module('MindlogMaster')
                 var date = Date.parse(d.timestamp)
                 return date
             });
-
-
 
             highest = highest - lowest;
 
@@ -293,7 +293,7 @@ angular.module('MindlogMaster')
               .attr('class', 'd3-tip')
               .offset([-10, 0])
               .html(function(d) {
-                return "<strong>" + d.timestamp + "</strong> <span' style='color:orange'>" + d.entry + "</span>";
+                return "<strong>Entry:</strong> <span' style='color:orange'>" + d.entry + "</span>";
               })
 
               main.call(tip);
@@ -312,12 +312,9 @@ angular.module('MindlogMaster')
                   })
 
 
-
-
                   .transition()
                   .duration(1000)
-                // //   .ease("quad")
-                //
+
                   .each("start", function() {  // Start animation
                            d3.select(this)  // 'this' means the current element
                                .attr("fill", "red")  // Change color
@@ -328,29 +325,11 @@ angular.module('MindlogMaster')
                             return i / data.length * 1000;  // Dynamic delay (i.e. each item delays a little longer)
                         })
 
+
                         .attr("fill", "orange")  // Change color
 
                         .attr("r", 8)
 
 
-
-
-
-
-                  //attempting to make the entry appear on mouseclick
-                //   .on("click", function(d){
-                //       console.log(d.entry);
-                //
-                //
-                //
-            	// })
-
-
             }
-
-
-
-
     }]);
-
-///real code ends here ****************************************************************************
