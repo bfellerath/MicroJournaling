@@ -18,8 +18,8 @@
         &nbsp;
     </div>
 <!-- validates that the rating is a number -->
-<form ng-submit='validate(newMindlog.rating) && createMindlog()'>
-    <div class="two columns">
+<form name="entryForm" ng-submit='validate(newMindlog.rating) && createMindlog()'>
+    <div class="three columns">
         <label class="mood-rating">Mood Rating 1 - 10</label>
   <input ng-model='newMindlog.rating' class="u-full-width" type="number" placeholder="...rating">
 
@@ -38,11 +38,14 @@
 
 
 
-<button ng-show="currentView.pagesLeft" ng-click="nextPage()" type="button" name="button">page {{currentView.page}}</button>
 
+
+<button ng-show="currentView.pagesLeft" ng-click="nextPage()" type="button" name="button">page {{currentView.page}}</button>
 <button ng-show="!currentView.pagesLeft" type="button" name="button">end of mindlogs</button>
 
-<button ng-click="toggleView()" type="button" name="button">{{currentView.state}}</button>
+<button ng-click="toggleView()" type="button" class="profile-button" id="dark-button" name="button">{{currentView.state}}</button>
+
+
 <div id="graph" ng-init="getGraph()">
 
 

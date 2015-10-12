@@ -16,6 +16,10 @@ body {
     float: right;
 }
 
+.profile-button {
+
+}
+
 
 
 #list_entries-list {
@@ -146,13 +150,13 @@ path {
  }
 
  #dark-button {
-    border: black solid 1px;
-    font-family: 'Anonymous Pro', ;
-    font-family: 'Share Tech Mono', ;
-    font-size: 15px;
+    /*border: grey solid 1px;*/
+    /*color: black;*/
+    /*font-family: 'Share Tech Mono', ;*/
+    /*font-size: 15px;
     color: black;
-    min-width: 132px;
-    background-color: #E8FEFE;
+    min-width: 132px;*/
+    /*background-color: #E8FEFE;*/
  }
 
  #logout {

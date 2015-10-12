@@ -129,6 +129,10 @@ angular.module('MindlogMaster')
                 var data = response.data.mindlogs;
                 drawGraph(data);
                 $scope.allData = data;
+                $scope.entryForm.$setPristine();
+                // $scope.currentRecord={};
+
+
 
             });
         };
@@ -210,7 +214,6 @@ angular.module('MindlogMaster')
             firstTwelve.push(currentPage)
             drawGraph(firstTwelve[page]);
         }
-
 
 
 
