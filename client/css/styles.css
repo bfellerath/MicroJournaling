@@ -62,6 +62,8 @@ body {
   font-weight: bold;
   padding: 12px;
   background: rgba(0, 0, 0, 0.7);
+  word-wrap: break-word;
+  max-width: 300px;
   color: white;
   border-radius: 2px;
 }
